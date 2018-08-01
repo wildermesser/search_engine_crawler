@@ -20,6 +20,12 @@ services:
       RABBITMQ_DEFAULT_PASS: crawler
     networks:
       - crawler_net
+  ui:
+    image: wildermesser/se_ui
+    networks: 
+      - crawler_net
+    ports:
+      - 8000:8000
 
 networks:
   crawler_net:
