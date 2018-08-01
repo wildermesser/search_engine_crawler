@@ -7,15 +7,15 @@ pipeline {
 
         stage('build') {
             steps {
-                sh 'docker build -t $REGISTRYCRED_USR/se_crawler .'
+                sh 'docker build -t $REGISTRYCRED_USR/$JOB_NAME:latest .'
                 sh 'docker login -u $REGISTRYCRED_USR -p $REGISTRYCRED_PSW'
-                sh 'docker push $REGISTRYCRED_USR/se_crawler'
+                sh 'docker push $REGISTRYCRED_USR/$JOB_NAME:latest'
             }
         }
         stage('test') {
             steps {
-                sh 'docker build -t $REGISTRYCRED_USR/se_crawler:test -f Dockerfile-test .'
-                sh 'docker run --rm $REGISTRYCRED_USR/se_crawler:test'
+                sh 'docker build -t $REGISTRYCRED_USR/$JOB_NAME:test -f Dockerfile-test .'
+                sh 'docker run --rm $REGISTRYCRED_USR/$JOB_NAME:test'
             }
         }
     }
