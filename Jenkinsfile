@@ -7,7 +7,7 @@ pipeline {
             }
             steps {
                 sh 'echo REGISTRYCRED_USR'
-                sh 'echo env.REGISTRYCRED_USR'
+                sh 'echo $REGISTRYCRED_USR'
                 sh 'docker info'
             }
         }
