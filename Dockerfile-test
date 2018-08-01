@@ -1,0 +1,8 @@
+FROM python:3.6
+COPY requirements.txt .
+COPY requirements-test.txt .
+RUN pip install -r requirements.txt
+RUN pip install -r requirements-test.txt
+COPY crawler /crawler
+COPY tests /tests
+CMD coverage run -m unittest discover -s tests/ && coverage report --include crawler/crawler.py
