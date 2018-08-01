@@ -6,9 +6,9 @@ pipeline {
                 REGISTRYCRED = credentials('registrypusher') 
             }
             steps {
-                sh 'echo REGISTRYCRED_USR'
-                sh 'echo $REGISTRYCRED_USR'
-                sh 'docker info'
+                sh 'docker build -t $REGISTRYCRED_USR/se_crawler .'
+                sh 'docker login -u $REGISTRYCRED_USR -p $REGISTRYCRED_PSW'
+                sh 'docker push $REGISTRYCRED_USR/se_crawler'
             }
         }
     }
