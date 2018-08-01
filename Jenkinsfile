@@ -1,9 +1,10 @@
 pipeline {
     agent { docker { image 'docker:stable-dind' } }
+    environment { 
+        REGISTRYCRED = credentials('registrypusher') 
+    }
     stages {
-        environment { 
-            REGISTRYCRED = credentials('registrypusher') 
-        }
+
         stage('build') {
             steps {
                 sh 'docker build -t $REGISTRYCRED_USR/se_crawler .'
