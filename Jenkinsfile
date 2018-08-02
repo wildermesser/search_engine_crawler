@@ -2,7 +2,7 @@ pipeline {
     agent { docker { image 'docker:stable-dind' } }
     environment { 
         REGISTRYCRED = credentials('registrypusher') 
-        REPO_NAME = sh "echo $JOB_NAME| awk -F/ '{print $1}'"
+        REPO_NAME = sh "echo $JOB_NAME| awk -F/ '{print \$1}'"
     }
     stages {
 
