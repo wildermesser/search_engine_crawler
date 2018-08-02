@@ -19,5 +19,15 @@ pipeline {
                 sh 'docker run --rm $REGISTRYCRED_USR/$REPO_NAME:test'
             }
         }
+        stage('deploy_to_prod') {
+            input {
+                message "Deploy to production?"
+                ok "Yes"
+                submitter "admin"
+            }
+            steps {
+                echo "Deploy to prodution by docker-compose"
+            }
+        }
     }
 }
