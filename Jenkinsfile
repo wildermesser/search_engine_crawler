@@ -26,7 +26,11 @@ pipeline {
                 submitter "admin"
             }
             steps {
-                echo "Deploy to prodution by docker-compose"
+                withCredentials([sshUserPrivateKey(credentialsId: '5284c251-c690-4f5f-9cd4-18da917f4369', keyFileVariable: 'SSH_PRODUCTION')]) {
+                    sh 'ssh-keyscan -t rsa production.ocrawler.tk > ~/.ssh/known_hosts'
+                    sh 'ssh messer@production.ocrawler.tk sudo docker-compose down'
+                    sh 'ssh messer@production.ocrawler.tk sudo docker-compose up -d'
+                }
             }
         }
     }
