@@ -1,5 +1,5 @@
 FROM python:3.6
-RUN apt update && apt install -y netcat && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt install -y netcat openssh-client && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY wait-for /
