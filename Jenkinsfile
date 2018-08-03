@@ -5,7 +5,6 @@ pipeline {
         REPO_NAME = "crawler"
     }
     stages {
-
         stage('build') {
             steps {
                 sh 'docker build -t $REGISTRYCRED_USR/$REPO_NAME:latest .'
@@ -26,6 +25,7 @@ pipeline {
                 submitter "admin"
             }
             steps {
+                sh 'apk add openssh-client'
                 withCredentials([sshUserPrivateKey(credentialsId: '5284c251-c690-4f5f-9cd4-18da917f4369', keyFileVariable: 'SSH_PRODUCTION')]) {
                     sh 'ssh-keyscan -t rsa production.ocrawler.tk > ~/.ssh/known_hosts'
                     sh 'ssh messer@production.ocrawler.tk sudo docker-compose down'
