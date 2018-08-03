@@ -28,6 +28,8 @@ pipeline {
                 sh 'apk add openssh-client && mkdir ~/.ssh'
                 withCredentials([sshUserPrivateKey(credentialsId: '5284c251-c690-4f5f-9cd4-18da917f4369', keyFileVariable: 'SSH_PRODUCTION')]) {
                     sh 'ssh-keyscan -t rsa production.ocrawler.tk > ~/.ssh/known_hosts'
+                    sh "cat $SSH_PRODUCTION > ~/.ssh/id_rsa"
+                    sh 'chmod 600 ~/.ssh/id_rsa'
                     sh 'ssh messer@production.ocrawler.tk sudo docker-compose down'
                     sh 'ssh messer@production.ocrawler.tk sudo docker-compose up -d'
                 }
