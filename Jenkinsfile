@@ -3,6 +3,8 @@ pipeline {
     environment { 
         REGISTRYCRED = credentials('registrypusher') 
         REPO_NAME = "crawler"
+        CRAWLER_VER = $env.BRANCH_NAME
+        UI_VER = "latest"
     }
     stages {
         stage('build') {

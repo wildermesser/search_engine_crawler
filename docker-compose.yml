@@ -2,7 +2,7 @@
 version: '3.3'
 services:
   crawler:
-    image: wildermesser/se_crawler
+    image: wildermesser/se_crawler:$CRAWLER_VER
     environment:
       RMQ_PASSWORD: crawler
     networks:
@@ -21,7 +21,7 @@ services:
     networks:
       - crawler_net
   ui:
-    image: wildermesser/se_ui
+    image: wildermesser/se_ui:$UI_VER
     networks: 
       - crawler_net
     ports:
