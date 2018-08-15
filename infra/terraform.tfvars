@@ -1,6 +1,6 @@
 project = "docker-201803"
 
-public_key_path = "id_rsa.pub"
+public_key_path = "infra/id_rsa.pub"
 
 private_key_path = "id_rsa"
 
