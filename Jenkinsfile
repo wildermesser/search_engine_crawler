@@ -23,7 +23,6 @@ pipeline {
         stage('deploy_to_branch') {
             when { not { branch 'master' } }
             steps {
-                sh "cat account.json"
                 withCredentials([sshUserPrivateKey(credentialsId: '5284c251-c690-4f5f-9cd4-18da917f4369', keyFileVariable: 'SSH_PRODUCTION')]) {
                     sh "cat $SSH_PRODUCTION > infra/id_rsa"
                 }
@@ -31,6 +30,7 @@ pipeline {
                 sh 'unzip -o terraform_0.11.7_linux_amd64.zip'
                 sh 'apk add git'
                 withCredentials([file(credentialsId: 'gcloud', variable: 'GCLOUD_CREDS')]) {
+                    sh "echo $GCLOUD_CREDS"
                     sh "./terraform init -backend-config='prefix=terraform/state-$env.BRANCH_NAME' -backend-config='credentials=$GCLOUD_CREDS'  infra/"
                     sh "./terraform apply -auto-approve -var instance_name=$env.BRANCH_NAME -var-file=infra/terraform.tfvars infra/"
                 }
