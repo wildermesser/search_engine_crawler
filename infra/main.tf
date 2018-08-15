@@ -9,7 +9,7 @@ resource "google_dns_managed_zone" "ocrawler" {
   dns_name = "ocrawler.tk."
 }
 
-module "production" {
+module "instance" {
   source        = "github.com/wildermesser/dockerinstance"
   instance_name = "${var.instance_name}"
 
