@@ -4,11 +4,6 @@ provider "google" {
   version = "1.16"
 }
 
-resource "google_dns_managed_zone" "ocrawler" {
-  name     = "ocrawler"
-  dns_name = "ocrawler.tk."
-}
-
 module "instance" {
   source        = "github.com/wildermesser/dockerinstance"
   instance_name = "${var.instance_name}"
