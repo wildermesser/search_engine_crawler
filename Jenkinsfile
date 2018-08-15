@@ -28,7 +28,7 @@ pipeline {
                 sh 'unzip terraform_0.11.7_linux_amd64.zip'
                 sh "export BACKEND_NAME='prefix=terraform/state-$env.BRANCH_NAME'"
                 sh "./terraform init -backend-config=$BACKEND_NAME -backend-config='credentials=files/account.json'"
-
+                sh "./terraform -v"
             }
         }        
         stage('deploy_to_prod') {
