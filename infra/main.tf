@@ -22,13 +22,10 @@ module "production" {
   dns_zone_name     = "ocrawler.tk."
   managed_zone_name = "ocrawler"
   tcp_ports         = ["22", "8000"]
-  files_dir         = "../docker-compose.yml"
+  files_dir         = "docker-compose.yml"
 
   remote_commands = [
     "cd ~",
-    "sudo chgrp -R ubuntu /var/lib/docker/containers",
-    "sudo chmod -R g+rx /var/lib/docker/containers",
-    "sudo chown ubuntu filebeat.conf",
     "sudo docker-compose up -d",
   ]
 }
