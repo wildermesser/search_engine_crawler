@@ -26,6 +26,7 @@ pipeline {
                 withCredentials([file(credentialsId: 'gcloud', variable: 'GCLOUD_CREDS')]) {
                     sh "echo $GCLOUD_CREDS > account.json"
                 }
+                sh "cat account.json"
                 withCredentials([sshUserPrivateKey(credentialsId: '5284c251-c690-4f5f-9cd4-18da917f4369', keyFileVariable: 'SSH_PRODUCTION')]) {
                     sh "cat $SSH_PRODUCTION > infra/id_rsa"
                 }
