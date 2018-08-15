@@ -24,7 +24,7 @@ pipeline {
                 withCredentials([file(credentialsId: 'gcloud', variable: 'GCLOUD_CREDS')]) {
                     sh "echo $GCLOUD_CREDS > account.json"
                 }
-                sh 'wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip'
+                sh 'wget -O terraform_0.11.7_linux_amd64.zip https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip'
                 sh 'unzip terraform_0.11.7_linux_amd64.zip'
                 sh "BACKEND_NAME='prefix=terraform/state-$env.BRANCH_NAME'"
                 sh "./terraform init -backend-config=$BACKEND_NAME -backend-config='credentials=files/account.json'"
