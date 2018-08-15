@@ -30,8 +30,9 @@ pipeline {
                 sh 'unzip -o terraform_0.11.7_linux_amd64.zip'
                 sh 'apk add git'
                 withCredentials([file(credentialsId: 'gcloud', variable: 'GCLOUD_CREDS')]) {
-                    sh "echo $GCLOUD_CREDS"
-                    sh "./terraform init -backend-config='prefix=terraform/state-$env.BRANCH_NAME' -backend-config='credentials=$GCLOUD_CREDS'  infra/"
+                    sh "cp $GCLOUD_CREDS account.json"
+                    sh "cat account.json"
+                    sh "./terraform init -backend-config='prefix=terraform/state-$env.BRANCH_NAME' -backend-config='credentials=account.json'  infra/"
                     sh "./terraform apply -auto-approve -var instance_name=$env.BRANCH_NAME -var-file=infra/terraform.tfvars infra/"
                 }
             }
