@@ -32,7 +32,7 @@ pipeline {
                 sh 'wget -O terraform_0.11.7_linux_amd64.zip https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip'
                 sh 'unzip -o terraform_0.11.7_linux_amd64.zip'
                 sh 'apk add git'
-                sh "./terraform init -backend-config='prefix=terraform/state-$env.BRANCH_NAME' -backend-config='credentials=files/account.json'  infra/"
+                sh "./terraform init -backend-config='prefix=terraform/state-$env.BRANCH_NAME' -backend-config='credentials=account.json'  infra/"
                 sh "./terraform apply -auto-approve -var instance_name=$env.BRANCH_NAME -var-file=infra/terraform.tfvars infra/"
             }
         }     
@@ -44,7 +44,7 @@ pipeline {
             }
             steps {   
                 sh 'cd infra'
-                sh "./terraform init -backend-config='prefix=terraform/state-$env.BRANCH_NAME' -backend-config='credentials=files/account.json' infra/"
+                sh "./terraform init -backend-config='prefix=terraform/state-$env.BRANCH_NAME' -backend-config='credentials=account.json' infra/"
                 sh "./terraform destroy -auto-approve -var instance_name=$env.BRANCH_NAME infra/"                 
             }
         }
