@@ -7,9 +7,9 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'docker build -t $REGISTRYCRED_USR/$REPO_NAME:latest .'
+                sh 'docker build -t $REGISTRYCRED_USR/$REPO_NAME:$env.BRANCH_NAME .'
                 sh 'docker login -u $REGISTRYCRED_USR -p $REGISTRYCRED_PSW'
-                sh 'docker push $REGISTRYCRED_USR/$REPO_NAME:latest'
+                sh 'docker push $REGISTRYCRED_USR/$REPO_NAME:$env.BRANCH_NAME'
             }
         }
         stage('test') {
