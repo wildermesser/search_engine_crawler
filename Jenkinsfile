@@ -23,9 +23,6 @@ pipeline {
         stage('deploy_to_branch') {
             when { not { branch 'master' } }
             steps {
-                withCredentials([file(credentialsId: 'gcloud', variable: 'GCLOUD_CREDS')]) {
-                    sh "echo $GCLOUD_CREDS > account.json"
-                }
                 sh "cat account.json"
                 withCredentials([sshUserPrivateKey(credentialsId: '5284c251-c690-4f5f-9cd4-18da917f4369', keyFileVariable: 'SSH_PRODUCTION')]) {
                     sh "cat $SSH_PRODUCTION > infra/id_rsa"
@@ -33,8 +30,10 @@ pipeline {
                 sh 'wget -O terraform_0.11.7_linux_amd64.zip https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip'
                 sh 'unzip -o terraform_0.11.7_linux_amd64.zip'
                 sh 'apk add git'
-                sh "./terraform init -backend-config='prefix=terraform/state-$env.BRANCH_NAME' -backend-config='credentials=account.json'  infra/"
-                sh "./terraform apply -auto-approve -var instance_name=$env.BRANCH_NAME -var-file=infra/terraform.tfvars infra/"
+                withCredentials([file(credentialsId: 'gcloud', variable: 'GCLOUD_CREDS')]) {
+                    h "./terraform init -backend-config='prefix=terraform/state-$env.BRANCH_NAME' -backend-config='credentials=$GCLOUD_CREDS'  infra/"
+                    sh "./terraform apply -auto-approve -var instance_name=$env.BRANCH_NAME -var-file=infra/terraform.tfvars infra/"
+                }
             }
         }     
         stage('remove_branch') {
@@ -55,6 +54,9 @@ pipeline {
                 message "Deploy to production?"
                 ok "Yes"
                 submitter "admin"
+            }
+            environment { 
+                CRAWLER_VER = "latest"
             }
             steps {
                 sh 'apk add openssh-client && mkdir ~/.ssh'
