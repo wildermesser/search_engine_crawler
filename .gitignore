@@ -1,2 +1,7 @@
 __pycache__
 .coverage
+
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+.terraform/
