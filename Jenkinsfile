@@ -25,7 +25,7 @@ pipeline {
                     sh "echo $GCLOUD_CREDS > account.json"
                 }
                 withCredentials([sshUserPrivateKey(credentialsId: '5284c251-c690-4f5f-9cd4-18da917f4369', keyFileVariable: 'SSH_PRODUCTION')]) {
-                    sh "cat $SSH_PRODUCTION > id_rsa"
+                    sh "cat $SSH_PRODUCTION > infra/id_rsa"
                 }
                 sh 'wget -O terraform_0.11.7_linux_amd64.zip https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip'
                 sh 'unzip -o terraform_0.11.7_linux_amd64.zip'
